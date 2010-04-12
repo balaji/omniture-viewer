@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<overlay id="omnitureOverlay" 
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <menupopup id="viewSidebarMenu">
+    <menuitem key="key_openOmniture" observes="viewOmniture" />
+  </menupopup>
+
+  <keyset id="mainKeyset">
+    <key id="key_openOmniture" command="viewOmniture"
+         key="M" modifiers="shift accel" />
+  </keyset>
+  
+  <broadcasterset id="mainBroadcasterSet"> 
+    <broadcaster id="viewOmniture"
+                 label="Omniture Debugger"
+                 autoCheck="false"
+                 type="checkbox"
+                 group="sidebar"
+                 sidebarurl="chrome://omniture/content/omniture.xul"
+                 sidebartitle="Omniture Debugger"
+                 oncommand="toggleSidebar('viewOmniture');" />
+  </broadcasterset>
+</overlay>
+

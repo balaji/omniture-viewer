@@ -1,0 +1,2 @@
+content omniture  content/
+overlay chrome://browser/content/browser.xul  chrome://omniture/content/config.xul

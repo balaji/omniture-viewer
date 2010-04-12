@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css" ?>
+<?xml-stylesheet href="chrome://browser/skin/browser.css" type="text/css" ?>
+
+<page id="sbOmniture" title="Omniture Debugger"
+      xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" 
+      xmlns:html="http://www.w3.org/1999/xhtml" onload="refresh_auto()">
+  <vbox flex="1" style="overflow:auto">
+    <checkbox label="Complete" id="switch_format" checked="false" oncommand="make_report()" />
+    <html:div id="omn_content" />    
+    <script type="application/x-javascript" src="chrome://omniture/content/debugger.js"/>
+  </vbox>
+</page>

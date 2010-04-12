@@ -1,0 +1,4 @@
+This is a firefox plugin to view omniture requests sent from the website.
+
+P.S  : This relies on the server context path of the HTTP requests, the code needs to change if Omniture decides to use a different server location.
+P.P.S: This wouldn't be hard to do.
