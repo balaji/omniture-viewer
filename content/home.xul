@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css" ?>
+<?xml-stylesheet href="chrome://browser/skin/browser.css" type="text/css" ?>
+
+<page id="sbHome" title="Welcome"
+      xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" 
+      xmlns:html="http://www.w3.org/1999/xhtml">
+	<vbox>      
+		<script type="application/x-javascript">
+			function openDialog() {
+				var nsIFilePicker = Components.interfaces.nsIFilePicker;
+				var fileChooser = Components.classes["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
+				fileChooser.init(window, "Select a File to open", nsIFilePicker.modeOpen);
+				var rv = fileChooser.show();
+				if (rv == nsIFilePicker.returnOK || rv == nsIFilePicker.returnReplace) {
+					var file = fileChooser.file;
+					document.getElementById("fileName").value = file.leafName;
+					document.getElementById("filePath").value = file.path; 					 
+					document.getElementById("start").style.display = "block";
+				}
+			}
+
+			function saveDialog() {
+				var nsIFilePicker = Components.interfaces.nsIFilePicker;
+		  		var fileChooser =
+				Components.classes["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
+		  		fileChooser.init(window, "Select a Location to save",nsIFilePicker.modeSave);
+		  		var fileBox = fileChooser.show();
+			}	
+	
+			function bubu() {
+				location.href = "omniture.xul?file=" + document.getElementById("filePath").value;
+			}
+		</script>
+		<br/>
+		<br/>
+		Select a file to log: <textbox id="fileName" value="please choose a file" size="10" disabled="true" />
+		<button label="Open" onclick="openDialog()"/><br/><br/>
+		<button id="start" label="Start" style="display:none;" onclick="bubu()" />
+		<input type="hidden" id="filePath"/>
+	</vbox>
+</page>
