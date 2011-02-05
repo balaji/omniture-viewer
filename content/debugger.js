@@ -1,7 +1,56 @@
+var DATA_MAP;
 function refresh_auto() {
+  if(DATA_MAP == undefined) {
+    DATA_MAP = {};
+  }
+  var fileName = gup("file");
   make_report();
   setTimeout("refresh_auto()", 5000);
+  if(fileName != "") wr(getFile(fileName));
 }
+
+function addToMap(key, value) {
+  DATA_MAP[key] = value;
+}
+
+function wr(fileName) {
+  var content = "";
+  for(var key in DATA_MAP) {
+	content += "\n" + key + "\n" +DATA_MAP[key];
+  }
+  writeToFile(content, fileName); 
+}
+
+function gup( name )
+{
+  name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+  var regexS = "[\\?&]"+name+"=([^&#]*)";
+  var regex = new RegExp(regexS);
+  var results = regex.exec(window.location.href);
+  if(results == null)
+    return "";
+  else
+    return results[1];
+}
+
+function getFile(fileName) {
+	var file = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
+	file.initWithPath(fileName);
+	return file;
+}
+
+function writeToFile(data, file) {
+	var foStream = 
+		Components.classes["@mozilla.org/network/file-output-stream;1"].createInstance(Components.interfaces.nsIFileOutputStream);
+	foStream.init(file, 0x02 | 0x08 | 0x20, 0666, 0);    
+    PAGE_URL = window.content.document.location.href;
+	var converter = 
+		Components.classes["@mozilla.org/intl/converter-output-stream;1"].createInstance(Components.interfaces.nsIConverterOutputStream);  
+	converter.init(foStream, "UTF-8", 0, 0);  
+	converter.writeString(data);  
+	converter.close(); 
+}
+
 function make_report() {
   var request_list = new Array; 
 
@@ -18,10 +67,14 @@ function make_report() {
   }
   clearDiv();
   if(request_list.length > 0) {
+    var data = "";
     for(var req in request_list) {
+      var dat = s_rep(request_list[req].url);
+      data += dat;
       document.getElementById("omn_content")
-        .appendChild(createNode(request_list[req].url, (req % 2 == 0 ? "#FFFFFF" : "#EFEFEF")));
+        .appendChild(createNode(dat, (req % 2 == 0 ? "#FFFFFF" : "#EFEFEF")));
     }
+    addToMap(window.content.document.location.href, data);
   } else {
     var elem = document.createElementNS("http://www.w3.org/1999/xhtml", "html:span");
     elem.setAttribute("style", "font:bold 11px arial,sans-serif;color: red;");
@@ -29,21 +82,24 @@ function make_report() {
     document.getElementById("omn_content").appendChild(elem);
   }
 }
+
 function clearDiv() {
   var div = document.getElementById("omn_content");
   if(div.childNodes.length > 0) while(div.hasChildNodes()) {
     div.removeChild(div.firstChild);
   }
 }
+
 function createNode(content, color) {
   var pelem = document.createElementNS("http://www.w3.org/1999/xhtml", "html:pre");
   pelem.setAttribute("style", "margin: 0px;background-color: " + color + ";");
-  pelem.appendChild(document.createTextNode(s_rep(content)));
+  pelem.appendChild(document.createTextNode(content));
   var elem = document.createElementNS("http://www.w3.org/1999/xhtml", "html:span");
   elem.setAttribute("style", "font:11px arial,sans-serif;color:#000000;");
   elem.appendChild(pelem); 
   return elem;
 }
+
 function s_rep(s) {
   var ret = "\n", arr;
   var propRege = new RegExp("^c+[0-9]");

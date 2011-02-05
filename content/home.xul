@@ -17,18 +17,11 @@
 					document.getElementById("fileName").value = file.leafName;
 					document.getElementById("filePath").value = file.path; 					 
 					document.getElementById("start").style.display = "block";
+					document.getElementById("nolog").style.display = "none";
 				}
 			}
-
-			function saveDialog() {
-				var nsIFilePicker = Components.interfaces.nsIFilePicker;
-		  		var fileChooser =
-				Components.classes["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
-		  		fileChooser.init(window, "Select a Location to save",nsIFilePicker.modeSave);
-		  		var fileBox = fileChooser.show();
-			}	
 	
-			function bubu() {
+			function navigate() {
 				location.href = "omniture.xul?file=" + document.getElementById("filePath").value;
 			}
 		</script>
@@ -36,7 +29,8 @@
 		<br/>
 		Select a file to log: <textbox id="fileName" value="please choose a file" size="10" disabled="true" />
 		<button label="Open" onclick="openDialog()"/><br/><br/>
-		<button id="start" label="Start" style="display:none;" onclick="bubu()" />
-		<input type="hidden" id="filePath"/>
+		<button id="start" label="Start" style="display:none;" onclick="navigate()" />
+		<button id="nolog" label="No Log" onclick="navigate()" />
+		<input type="hidden" id="filePath" value=""/>
 	</vbox>
 </page>

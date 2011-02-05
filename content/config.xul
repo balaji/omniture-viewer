@@ -16,7 +16,7 @@
                  autoCheck="false"
                  type="checkbox"
                  group="sidebar"
-                 sidebarurl="chrome://omniture/content/omniture.xul"
+                 sidebarurl="chrome://omniture/content/home.xul"
                  sidebartitle="Omniture Debugger"
                  oncommand="toggleSidebar('viewOmniture');" />
   </broadcasterset>
