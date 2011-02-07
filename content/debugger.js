@@ -1,7 +1,11 @@
 var DATA_MAP;
+var pageTransition;
+var lastPage;
 function refresh_auto() {
   if(DATA_MAP == undefined) {
     DATA_MAP = {};
+	pageTransition = 0;
+	lastPage = "";
   }
   var fileName = gup("file");
   make_report();
@@ -10,7 +14,12 @@ function refresh_auto() {
 }
 
 function addToMap(key, value) {
-  DATA_MAP[key] = value;
+	if(lastPage != key) {
+		pageTransition = pageTransition + 1;
+	}
+	lastPage = key;
+	
+	DATA_MAP[pageTransition + " : "+key] = value;
 }
 
 function wr(fileName) {
